@@ -43,10 +43,22 @@
       var line = new THREE.Line(geometry, material);
       scene.add(line);
 
+      var geometry = new THREE.BoxGeometry(1,1,1);
+      var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+      var cube = new THREE.Mesh(geometry, material);
+
+      scene.add(cube);
+
       camera.position.z = 50;
 
+      var cubePos = 0;
       function render() {
         requestAnimationFrame(render);
+
+        cubePos += 0.01;
+
+        cube.position.x = 20*Math.cos(cubePos) + 0;
+        cube.position.z = 20*Math.sin(cubePos) + 0;
 
         renderer.render(scene, camera);
       }
