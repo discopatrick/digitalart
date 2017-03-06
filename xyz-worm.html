@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset=utf-8>
-		<title>My first three.js app</title>
-		<style>
-			body { margin: 0; }
+  <head>
+    <meta charset=utf-8>
+    <title>My first three.js app</title>
+    <style>
+      body { margin: 0; }
       canvas { width: 100%; height: 100%; display: block; }
-		</style>
-	</head>
-	<body>
+    </style>
+  </head>
+  <body>
     <script src="//cdn.rawgit.com/mrdoob/three.js/r84/build/three.min.js"></script>
     <script src="//cdn.rawgit.com/mrdoob/three.js/r84/examples/js/Detector.js"></script>
     <script src="./js/lib.js"></script>
-		<script>
+    <script>
 
       function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -42,7 +42,7 @@
         scene.add(line)
       }
 
-			var scene = new THREE.Scene();
+      var scene = new THREE.Scene();
       var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
       var renderer = new THREE.WebGLRenderer();
@@ -79,6 +79,6 @@
           document.getElementById('container').appendChild(warning);
       }
 
-		</script>
-	</body>
+    </script>
+  </body>
 </html>
