@@ -75,6 +75,28 @@ function getLineCube() {
   return line;
 }
 
+function getNextBezier(bezier) {
+
+  var nextBezier = new THREE.CubicBezierCurve3(
+    bezier.v3,
+    new THREE.Vector3(
+      getMirroredCoord(bezier.v3.x, bezier.v2.x),
+      getMirroredCoord(bezier.v3.y, bezier.v2.y),
+      getMirroredCoord(bezier.v3.z, bezier.v2.z)
+    ),
+    new THREE.Vector3(getRandomInt(-10,10),getRandomInt(-10,10),getRandomInt(-10,10)),
+    new THREE.Vector3(getRandomInt(-10,10),getRandomInt(-10,10),getRandomInt(-10,10))
+  )
+
+  return nextBezier;
+}
+
+function getMirroredCoord(pivot, coord) {
+  var delta = pivot - coord;
+  var mirror = pivot + delta;
+  return mirror;
+}
+
 function Worm() {
 
   this.BODYLENGTH = 10;

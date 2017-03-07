@@ -18,23 +18,21 @@ var lastBezier = null;
 
 function addBezier() {
 
-  var startPoint;
+  var curve;
 
-  if (lastBezier != null) {
-    startPoint = lastBezier.v3; // last bezier's end point
+  if (lastBezier == null) {
+    curve = new THREE.CubicBezierCurve3(
+      new THREE.Vector3(0,0,0),
+      new THREE.Vector3(getRandomInt(-10,10),getRandomInt(-10,10),getRandomInt(-10,10)),
+      new THREE.Vector3(getRandomInt(-10,10),getRandomInt(-10,10),getRandomInt(-10,10)),
+      new THREE.Vector3(getRandomInt(-10,10),getRandomInt(-10,10),getRandomInt(-10,10))
+    )
   } else {
-    startPoint = new THREE.Vector3(0,0,0);
+    curve = getNextBezier(lastBezier);
   }
 
-  var curve = new THREE.CubicBezierCurve3(
-    startPoint,
-    new THREE.Vector3(getRandomInt(-10,10),getRandomInt(-10,10),getRandomInt(-10,10)),
-    new THREE.Vector3(getRandomInt(-10,10),getRandomInt(-10,10),getRandomInt(-10,10)),
-    new THREE.Vector3(getRandomInt(-10,10),getRandomInt(-10,10),getRandomInt(-10,10))
-  )
-
   var geometry = new THREE.Geometry();
-  geometry.vertices = curve.getPoints(20);
+  geometry.vertices = curve.getPoints(30);
   var material = new THREE.LineBasicMaterial({color: 0xffffff});
   var curveObject = new THREE.Line(geometry, material);
   
