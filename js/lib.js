@@ -4,6 +4,9 @@ $(document).ready(function(){
   script = getParameterByName('show');
   $.getScript('./js/three/' + script + '.js');
 
+  // populate the title tag
+  $("title").text(script);
+
   // populate and update the dropdown
   $.ajax({
       url : "https://api.github.com/repos/discopatrick/digitalart/contents/js/three",
