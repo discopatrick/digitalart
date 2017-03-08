@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Three.js</title>
+    <style>
+      body { margin: 0; background-color: black; }
+      canvas { width: 100%; height: 100%; display: block; }
+      select { position: absolute; top: 10px; left: 10px; }
+    </style>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script src="//cdn.rawgit.com/mrdoob/three.js/r84/build/three.min.js"></script>
+    <script src="//cdn.rawgit.com/mrdoob/three.js/r84/examples/js/Detector.js"></script>
+    <script src="./js/wrapper.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var wrapper = new ThreeWrapper();
+
+        var geometry = new THREE.BoxGeometry(1,1,1);
+        var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+        var cube = new THREE.Mesh(geometry, material);
+        wrapper.scene.add(cube);
+
+        wrapper.render = function() {
+          cube.rotation.x += 0.1;
+          cube.rotation.y += 0.1;
+        }
+
+        wrapper.camera.position.z = 10;
+        
+        wrapper.animate();
+      });
+    </script>
+  </head>
+  <body>
+    <select id="artworks"></select>
+  </body>
+</html>
