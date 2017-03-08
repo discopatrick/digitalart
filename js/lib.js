@@ -155,3 +155,54 @@ function Worm() {
     return new Array(x, y, z);
   }
 }
+
+function CurvyWorm() {
+
+  this.body = new Array();
+
+  // initialise body
+  this.body.push(
+    new Array(
+      new Array(0,0,0), // start point
+      new Array(0,0,0), // start control point
+      new Array( // end control point
+        getRandomInt(-10, 10),
+        getRandomInt(-10, 10),
+        getRandomInt(-10, 10)        
+      ),
+      new Array( // end point
+        getRandomInt(-10, 10),
+        getRandomInt(-10, 10),
+        getRandomInt(-10, 10)
+      )
+    )
+  );
+
+  this.addSegment = function() {
+    lastSegment = this.body[this.body.length - 1];
+    this.body.push(
+      new Array(
+        new Array( // start point matches last end point
+          lastSegment[3][0],
+          lastSegment[3][1],
+          lastSegment[3][2]
+        ),
+        new Array( // start control point mirrors last end control point
+          getMirroredCoord(lastSegment[3][0], lastSegment[2][0]),
+          getMirroredCoord(lastSegment[3][1], lastSegment[2][1]),
+          getMirroredCoord(lastSegment[3][2], lastSegment[2][2])
+        ),
+        new Array( // end control point
+          getRandomInt(-10, 10),
+          getRandomInt(-10, 10),
+          getRandomInt(-10, 10)        
+        ),
+        new Array( // end point
+          getRandomInt(-10, 10),
+          getRandomInt(-10, 10),
+          getRandomInt(-10, 10)
+        )
+      )
+    );
+  }
+}
