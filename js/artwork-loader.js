@@ -1,7 +1,12 @@
 $(document).ready(function(){
 
   // show the artwork specified in the querystring
-  script = getParameterByName('show');
+  var script = getParameterByName('show');
+  console.log(script);
+  if (script == null) {
+    script = 'curvy-worm-2';
+    window.location.href = './?show=' + script;
+  }
   $.getScript('./js/three/' + script + '.js');
 
   // populate the title tag
