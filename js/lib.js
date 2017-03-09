@@ -14,6 +14,14 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function getRandomVector3(min, max) {
+  return new THREE.Vector3(
+    getRandomInt(min, max),
+    getRandomInt(min, max),
+    getRandomInt(min, max)
+  )
+}
+
 function getLineCube() {
 
   var material = new THREE.LineBasicMaterial({ color: 0xffffff });
