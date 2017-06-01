@@ -1,0 +1,24 @@
+{
+  "name": "digitalart",
+  "version": "0.1.0",
+  "description": "A showcase for my experiments in WebGL.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://discopatrick@github.com/discopatrick/digitalart.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/discopatrick/digitalart/issues"
+  },
+  "homepage": "https://github.com/discopatrick/digitalart#readme",
+  "dependencies": {
+    "babel-preset-env": "^1.5.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2"
+  }
+}
