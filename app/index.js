@@ -1,38 +1,84 @@
 var THREE = require('three');
+import { Worm, getLineCube } from './lib';
 
-var scene, camera, renderer;
-var geometry, material, mesh;
+function draw(worm) {
 
-init();
-animate();
+  var wormObj = worm[0];
+  var line = worm[1];
 
-function init() {
+  if (line != null) {
+    scene.remove(line);
+  }
 
-    scene = new THREE.Scene();
+  var material = new THREE.LineBasicMaterial({ color: 0xffffff });
+  var geometry = new THREE.Geometry();
 
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
-    camera.position.z = 1000;
+  for (var i = 0; i < wormObj.body.length; i++) {
+    geometry.vertices.push(
+      new THREE.Vector3(
+        wormObj.body[i][0],
+        wormObj.body[i][1],
+        wormObj.body[i][2]
+      )
+    );
+  }
 
-    geometry = new THREE.BoxGeometry( 200, 200, 200 );
-    material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: true } );
+  line = new THREE.Line(geometry, material);
+  worm[1] = line;
 
-    mesh = new THREE.Mesh( geometry, material );
-    scene.add( mesh );
-
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize( window.innerWidth, window.innerHeight );
-
-    document.body.appendChild( renderer.domElement );
-
+  scene.add(line)
 }
 
-function animate() {
-
-    requestAnimationFrame( animate );
-
-    mesh.rotation.x += 0.01;
-    mesh.rotation.y += 0.02;
-
-    renderer.render( scene, camera );
-
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+scene.add(getLineCube());
+
+var cameraDistance = 30;
+var cameraPos = 0;
+camera.position.y = 20;
+
+var wormCount = 10;
+var worms = new Array();
+
+for (var i = 0; i < wormCount; i++) {
+  worms.push(
+    new Array(
+      new Worm(),
+      null
+    )
+  );
+}
+
+function render() {
+  requestAnimationFrame(render);
+
+  cameraPos += 0.003;
+
+  camera.position.x = cameraDistance * Math.cos(cameraPos);
+  camera.position.z = cameraDistance * Math.sin(cameraPos);
+  camera.lookAt(new THREE.Vector3(0,0,0));
+
+  for (var i = 0; i < worms.length; i++) {
+    worms[i][0].move();
+    draw(worms[i]);
+  }
+
+  renderer.render(scene, camera);
+}
+
+// TODO: fix Detector
+// if (Detector.webgl) {
+  render();
+// } else {
+//     var warning = Detector.getWebGLErrorMessage();
+//     document.getElementById('container').appendChild(warning);
+// }
