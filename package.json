@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/discopatrick/digitalart/issues"
   },
-  "homepage": "https://github.com/discopatrick/digitalart#readme"
+  "homepage": "https://github.com/discopatrick/digitalart#readme",
+  "devDependencies": {
+    "webpack": "^3.4.1"
+  }
 }
