@@ -9,6 +9,12 @@ class ThreeWrapper {
 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
+
+    // TODO: use Detector
+    // if (!Detector.webgl) {
+    //   var warning = Detector.getWebGLErrorMessage();
+    //   document.body.appendChild(warning);
+    // }
   }
 
   render() {
