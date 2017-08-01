@@ -1,5 +1,5 @@
 var THREE = require('three');
-import { Worm, getLineCube } from './lib';
+import { Worm, getLineCube } from './lib/classes';
 
 function draw(worm) {
 
