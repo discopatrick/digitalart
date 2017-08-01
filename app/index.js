@@ -1,84 +1,50 @@
 var THREE = require('three');
-import { Worm, getLineCube } from './lib/classes';
+import { Worm, getLineCube, getRandomVector3, getNextBezier, getMirroredCoord } from './lib/classes';
+import { ThreeWrapper } from './lib/wrapper'
 
-function draw(worm) {
+var tw = new ThreeWrapper();
 
-  var wormObj = worm[0];
-  var line = worm[1];
+tw.scene.add(getLineCube());
 
-  if (line != null) {
-    scene.remove(line);
-  }
+var curvePath = new THREE.CurvePath();
+var curve = new THREE.CubicBezierCurve3(
+  new THREE.Vector3(0,0,0),
+  getRandomVector3(-10, 10),
+  getRandomVector3(-10, 10),
+  getRandomVector3(-10, 10)
+)
+curvePath.add(curve);
+curve = getNextBezier(curve);
+curvePath.add(curve);
 
-  var material = new THREE.LineBasicMaterial({ color: 0xffffff });
-  var geometry = new THREE.Geometry();
-
-  for (var i = 0; i < wormObj.body.length; i++) {
-    geometry.vertices.push(
-      new THREE.Vector3(
-        wormObj.body[i][0],
-        wormObj.body[i][1],
-        wormObj.body[i][2]
-      )
-    );
-  }
-
-  line = new THREE.Line(geometry, material);
-  worm[1] = line;
-
-  scene.add(line)
-}
-
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-scene.add(getLineCube());
+var curveRes = 100;
+var curvePoints = curvePath.getPoints(curveRes);
+var geometry = new THREE.Geometry();
+var startPoint = 0;
+var bodyLength = 20;
+geometry.vertices = curvePoints.slice(startPoint, startPoint+bodyLength);
+var material = new THREE.LineBasicMaterial({color: 0xffffff});
+var curveObject = new THREE.Line(geometry, material);
+tw.scene.add(curveObject);
 
 var cameraDistance = 30;
 var cameraPos = 0;
-camera.position.y = 20;
+tw.camera.position.y = 20;
 
-var wormCount = 10;
-var worms = new Array();
-
-for (var i = 0; i < wormCount; i++) {
-  worms.push(
-    new Array(
-      new Worm(),
-      null
-    )
-  );
-}
-
-function render() {
-  requestAnimationFrame(render);
-
+tw.render = function() {
   cameraPos += 0.003;
+  tw.camera.position.x = cameraDistance * Math.cos(cameraPos);
+  tw.camera.position.z = cameraDistance * Math.sin(cameraPos);
+  tw.camera.lookAt(new THREE.Vector3(0,0,0));
 
-  camera.position.x = cameraDistance * Math.cos(cameraPos);
-  camera.position.z = cameraDistance * Math.sin(cameraPos);
-  camera.lookAt(new THREE.Vector3(0,0,0));
-
-  for (var i = 0; i < worms.length; i++) {
-    worms[i][0].move();
-    draw(worms[i]);
+  startPoint++;
+  if (startPoint%100 > 80) {
+    curve = getNextBezier(curve);
+    curvePath.add(curve);
+    curvePoints = curvePath.getPoints(curveRes);
   }
-
-  renderer.render(scene, camera);
+  geometry.vertices = curvePoints.slice(startPoint, startPoint+bodyLength);
+  geometry.verticesNeedUpdate = true;
 }
 
-// TODO: fix Detector
-// if (Detector.webgl) {
-  render();
-// } else {
-//     var warning = Detector.getWebGLErrorMessage();
-//     document.getElementById('container').appendChild(warning);
-// }
+tw.animate();
