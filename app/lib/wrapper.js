@@ -16,7 +16,7 @@ class ThreeWrapper {
   }
 
   animate() {
-    requestAnimationFrame(this.animate);
+    requestAnimationFrame(this.animate.bind(this));
     this.render();
     this.renderer.render(this.scene, this.camera);
   }
