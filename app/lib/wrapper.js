@@ -17,14 +17,23 @@ class ThreeWrapper {
     // }
   }
 
+  setup() {
+    // leave empty, can be defined in subclass
+  }
+
   render() {
-    // leave empty, can be defined later
+    // leave empty, can be defined in subclass
   }
 
   animate() {
     requestAnimationFrame(this.animate.bind(this));
     this.render();
     this.renderer.render(this.scene, this.camera);
+  }
+
+  start() {
+    this.setup()
+    this.animate()
   }
 }
 
